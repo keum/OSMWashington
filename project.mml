@@ -1,0 +1,393 @@
+{
+  "bounds": [
+    -124.8915,
+    45.4025,
+    -116.2892,
+    49.2428
+  ],
+  "center": [
+    -122.101,
+    47.647,
+    7
+  ],
+  "format": "png8",
+  "interactivity": false,
+  "minzoom": 7,
+  "maxzoom": 19,
+  "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+  "Stylesheet": [
+    "style.mss",
+    "water.mss",
+    "palette.mss",
+    "Label.mss",
+    "roads.mss",
+    "landuse.mss",
+    "landuse-labels.mss"
+  ],
+  "Layer": [
+    {
+      "id": "countries",
+      "name": "countries",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "geometry": "polygon",
+      "Datasource": {
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.4.0/cultural/10m-admin-0-countries.zip",
+        "type": "shape"
+      }
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        -124.86082025115365,
+        46.24981808004037,
+        -122.17289456872925,
+        49.00211127471562
+      ],
+      "id": "LargeWaterbody",
+      "class": "",
+      "Datasource": {
+        "file": "/Users/peter/Documents/quiteStyleWA/WaterbodyLarge.shp"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "LargeWaterbody",
+      "status": "off"
+    },
+    {
+      "extent": [
+        -124.836091424519,
+        45.540439472936676,
+        -116.85641083426539,
+        49.162427105063415
+      ],
+      "Datasource": {
+        "type": "postgis",
+        "table": "( SELECT  way, way_area AS area, COALESCE(landuse, leisure, \"natural\", highway, amenity, tourism) AS type  FROM planet_osm_polygon  ORDER BY way_area DESC) AS data",
+        "key_field": "",
+        "geometry_field": "way",
+        "extent_cache": "auto",
+        "extent": "-13896690.13,5707007.7,-13008396.15,6302466.95",
+        "host": "localhost",
+        "dbname": "osm_washington",
+        "id": "landuse",
+        "project": "OSMwashington",
+        "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over"
+      },
+      "id": "landuse",
+      "class": "",
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "advanced": {},
+      "name": "landuse",
+      "status": "off"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        -124.70922120699068,
+        45.539210530430466,
+        -116.91458063088584,
+        49.002414676931174
+      ],
+      "id": "LargeRiver",
+      "class": "",
+      "Datasource": {
+        "file": "/Users/peter/Documents/quiteStyleWA/river.shp"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "LargeRiver"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        -124.34468360629222,
+        45.700481639396806,
+        -117.15162449066096,
+        48.898570223284025
+      ],
+      "id": "Lakes",
+      "class": "",
+      "Datasource": {
+        "file": "/Users/peter/Documents/quiteStyleWA/lakes.shp"
+      },
+      "layer": null,
+      "srs-name": "autodetect",
+      "srs": "",
+      "advanced": {},
+      "name": "Lakes"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -131.69312728194606,
+        41.97381730603673,
+        -115.58146267389728,
+        55.353839505824865
+      ],
+      "Datasource": {
+        "type": "postgis",
+        "table": "( SELECT way, COALESCE(highway, railway) AS type, 0 AS bridge, access, render, layer, 1 as tunnel,  CASE    WHEN highway IN ('motorway', 'trunk') THEN 'motorway'    WHEN highway IN ('primary', 'secondary') THEN 'mainroad'    WHEN highway IN ('motorway_link', 'trunk_link', 'primary_link', 'secondary_link', 'tertiary', 'tertiary_link', 'residential', 'unclassified', 'road', 'living_street') THEN 'minorroad'    WHEN highway IN ('service', 'track') THEN 'service'    WHEN highway IN ('path', 'cycleway', 'footway', 'pedestrian', 'steps', 'bridleway') THEN 'noauto'    WHEN railway IN ('light_rail', 'subway', 'narrow_gauge', 'rail', 'tram') THEN 'railway'   ELSE 'other' END AS stylegroup  FROM (    SELECT *, '1_outline' AS render FROM planet_osm_line    WHERE tunnel NOT IN ('', '0', 'no')    UNION ALL    SELECT *, '2_line' AS render FROM planet_osm_line    WHERE tunnel NOT IN ('', '0', 'no')    UNION ALL    SELECT *, '3_inline' AS render FROM planet_osm_line    WHERE tunnel NOT IN ('', '0', 'no')  ) AS tunnels  ORDER BY layer ASC, render ASC) AS data",
+        "key_field": "",
+        "geometry_field": "way",
+        "extent_cache": "auto",
+        "extent": "-14660011.87,5157058.21,-12866469.57,7430844.22",
+        "host": "localhost",
+        "dbname": "osm_washington"
+      },
+      "id": "tunnel",
+      "class": "",
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "advanced": {},
+      "name": "tunnel"
+    },
+    {
+      "geometry": "polygon",
+      "extent": [
+        -125.11402051831098,
+        46.22665743695008,
+        -120.99305996232849,
+        49.06411251038922
+      ],
+      "id": "water-edit",
+      "class": "",
+      "Datasource": {
+        "file": "/Users/peter/Documents/quiteStyleWA/wateredit.shp"
+      },
+      "layer": null,
+      "srs-name": "WGS84",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "advanced": {},
+      "name": "water-edit"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -131.69312728194606,
+        41.97381730603673,
+        -115.58146267389728,
+        55.353839505824865
+      ],
+      "Datasource": {
+        "type": "postgis",
+        "table": "(SELECT way, highway AS type  FROM planet_osm_roads  WHERE highway IN ('motorway', 'trunk', 'primary', 'secondary', 'motorway_link', 'trunk_link')) AS data",
+        "key_field": "",
+        "geometry_field": "way",
+        "extent_cache": "auto",
+        "extent": "-14660011.87,5157058.21,-12866469.57,7430844.22",
+        "host": "localhost",
+        "dbname": "osm_washington"
+      },
+      "id": "roads-medium",
+      "class": "",
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "advanced": {},
+      "name": "roads-medium"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -131.69312728194606,
+        41.97381730603673,
+        -115.58146267389728,
+        55.353839505824865
+      ],
+      "Datasource": {
+        "type": "postgis",
+        "table": "(SELECT  way,    COALESCE(highway, railway) AS type,    0 AS tunnel,    0 AS bridge,    CASE WHEN highway IN ('motorway', 'trunk') THEN 1 ELSE 0 END as motorway,    access,    'fill' AS render,  CASE    WHEN highway IN ('motorway', 'trunk') THEN 'motorway'    WHEN highway IN ('primary', 'secondary') THEN 'mainroad'    WHEN highway IN ('motorway_link', 'trunk_link', 'primary_link', 'secondary_link', 'tertiary', 'tertiary_link', 'residential', 'unclassified', 'road', 'living_street') THEN 'minorroad'    WHEN highway IN ('service', 'track') THEN 'service'    WHEN highway IN ('path', 'cycleway', 'footway', 'pedestrian', 'steps', 'bridleway') THEN 'noauto'    WHEN railway IN ('light_rail', 'subway', 'narrow_gauge', 'rail', 'tram') THEN 'railway'    ELSE 'other'   END AS stylegroup  FROM planet_osm_line    WHERE (highway IS NOT NULL OR railway IS NOT NULL)  AND (tunnel IS NULL OR tunnel = 'no')  AND (bridge IS NULL OR bridge = 'no') ORDER BY z_order) as data",
+        "key_field": "",
+        "geometry_field": "way",
+        "extent_cache": "auto",
+        "extent": "-14660011.87,5157058.21,-12866469.57,7430844.22",
+        "host": "localhost",
+        "dbname": "osm_washington"
+      },
+      "id": "roads-high",
+      "class": "",
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "advanced": {},
+      "name": "roads-high"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -131.69312728194606,
+        41.97381730603673,
+        -115.58146267389728,
+        55.353839505824865
+      ],
+      "Datasource": {
+        "type": "postgis",
+        "table": "( SELECT way, COALESCE(highway, railway) AS type, 1 AS bridge, access, render, layer, 0 as tunnel,  CASE    WHEN highway IN ('motorway', 'trunk') THEN 'motorway'    WHEN highway IN ('primary', 'secondary') THEN 'mainroad'    WHEN highway IN ('motorway_link', 'trunk_link', 'primary_link', 'secondary_link', 'tertiary', 'tertiary_link', 'residential', 'unclassified', 'road', 'living_street') THEN 'minorroad'    WHEN highway IN ('service', 'track') THEN 'service'    WHEN highway IN ('path', 'cycleway', 'footway', 'pedestrian', 'steps', 'bridleway') THEN 'noauto'    WHEN railway IN ('light_rail', 'subway', 'narrow_gauge', 'rail', 'tram') THEN 'railway'    ELSE 'other' END AS stylegroup  FROM (    SELECT *, '1_outline' AS render FROM planet_osm_line   WHERE bridge NOT IN ('', '0', 'no')    UNION ALL   SELECT *, '2_line' AS render FROM planet_osm_line   WHERE bridge NOT IN ('', '0', 'no')   UNION ALL   SELECT *, '3_inline' AS render FROM planet_osm_line   WHERE bridge NOT IN ('', '0', 'no')  ) AS bridges  ORDER BY layer ASC, render ASC) AS data\n",
+        "key_field": "",
+        "geometry_field": "way",
+        "extent_cache": "auto",
+        "extent": "-14660011.87,5157058.21,-12866469.57,7430844.22",
+        "host": "localhost",
+        "dbname": "osm_washington"
+      },
+      "id": "bridge",
+      "class": "",
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "advanced": {},
+      "name": "bridge"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -131.69312728194606,
+        41.97381730603673,
+        -115.58146267389728,
+        55.353839505824865
+      ],
+      "Datasource": {
+        "type": "postgis",
+        "table": "( SELECT way, highway AS type, name, oneway  FROM planet_osm_line  WHERE (name IS NOT NULL OR oneway IN ('yes', 'true', '1', '-1'))    AND highway IN ('primary', 'secondary', 'tertiary')) AS data",
+        "key_field": "",
+        "geometry_field": "way",
+        "extent_cache": "auto",
+        "extent": "-14660011.87,5157058.21,-12866469.57,7430844.22",
+        "host": "localhost",
+        "dbname": "osm_washington"
+      },
+      "id": "mainroad-labels",
+      "class": "surface-streets",
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "advanced": {},
+      "name": "mainroad-labels"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -131.69312728194606,
+        41.97381730603673,
+        -115.58146267389728,
+        55.353839505824865
+      ],
+      "Datasource": {
+        "type": "postgis",
+        "table": "( SELECT way, highway AS type, name, ref, oneway, CHAR_LENGTH(ref) AS reflen   FROM planet_osm_line    WHERE highway IN ('motorway', 'trunk')    AND (name IS NOT NULL OR ref IS NOT NULL)) AS data",
+        "key_field": "",
+        "geometry_field": "way",
+        "extent_cache": "auto",
+        "extent": "-14660011.87,5157058.21,-12866469.57,7430844.22",
+        "host": "localhost",
+        "dbname": "osm_washington"
+      },
+      "id": "motorway-labels",
+      "class": "surface-streets",
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "advanced": {},
+      "name": "motorway-labels"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -131.69312728194606,
+        41.97381730603673,
+        -115.58146267389728,
+        55.353839505824865
+      ],
+      "Datasource": {
+        "type": "postgis",
+        "table": "(SELECT way, highway AS type, name, oneway  FROM planet_osm_line  WHERE (name IS NOT NULL OR oneway IN ('yes', 'true', '1', '-1'))    AND highway IN ('residential', 'unclassified', 'road', 'living_street', 'unknown')) AS data\n",
+        "key_field": "",
+        "geometry_field": "way",
+        "extent_cache": "auto",
+        "extent": "-14660011.87,5157058.21,-12866469.57,7430844.22",
+        "host": "localhost",
+        "dbname": "osm_washington"
+      },
+      "id": "minorroads-lables",
+      "class": "surface-streets",
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "advanced": {},
+      "name": "minorroads-lables"
+    },
+    {
+      "extent": [
+        -124.836091424519,
+        45.540439472936676,
+        -116.85641083426539,
+        49.162427105063415
+      ],
+      "Datasource": {
+        "type": "postgis",
+        "table": "(SELECT COALESCE(landuse, leisure, \"natural\", highway, amenity, tourism, military, religion, man_made, historic) AS type,name, CAST(way_area as numeric)  AS area,ST_PointOnSurface(way) AS way  FROM planet_osm_polygon  WHERE name IS NOT NULL  AND COALESCE(boundary, 'foo') <> 'administrative'    AND way && !bbox!    AND ST_IsValid(way)  UNION ALL SELECT 'building' AS type, name, CAST(way_area as numeric)  AS area,    ST_PointOnSurface(way) AS way  FROM planet_osm_polygon  WHERE name IS NOT NULL    AND building NOT IN ('', 'no', '0', 'false')    AND way && !bbox!    AND ST_IsValid(way)  ORDER BY area DESC) AS data\n",
+        "key_field": "",
+        "geometry_field": "way",
+        "extent_cache": "auto",
+        "extent": "-13896690.13,5707007.7,-13008396.15,6302466.95",
+        "host": "localhost",
+        "dbname": "osm_washington"
+      },
+      "id": "landuse-labels",
+      "class": "places",
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "advanced": {},
+      "name": "landuse-labels"
+    },
+    {
+      "geometry": "linestring",
+      "extent": [
+        -131.69312728194606,
+        41.97381730603673,
+        -115.58146267389728,
+        55.353839505824865
+      ],
+      "Datasource": {
+        "type": "postgis",
+        "table": "(SELECT way,name,highway, char_length(trim(both ' ' from regexp_replace(regexp_replace(ref, 'WA |US |I  |I|SR', ''), ';.*', ''))) as ref_len,trim(both ' ' from regexp_replace(regexp_replace(ref, 'WA |US |I  |I|SR', ''), ';.*', '')) as ref, CASE WHEN oneway in  ('yes','true','1') THEN 'yes'::text END as oneway,CASE WHEN strpos(ref, 'I') != 0 THEN 'I'::text WHEN strpos(ref, 'US') != 0 THEN 'US'::text WHEN strpos(ref, 'WA') != 0 THEN 'WA'::text WHEN strpos(ref, 'SR') != 0 THEN 'SR'::text END as \"type\" FROM planet_osm_line WHERE \"highway\" IS NOT NULL AND (\"name\" is not null or \"oneway\" is not null) ORDER BY z_order ASC) as highway_label",
+        "key_field": "",
+        "geometry_field": "way",
+        "extent_cache": "auto",
+        "extent": "-14660011.87,5157058.21,-12866469.57,7430844.22",
+        "host": "localhost",
+        "dbname": "osm_washington"
+      },
+      "id": "highway",
+      "class": "shield",
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "advanced": {},
+      "name": "highway"
+    },
+    {
+      "geometry": "point",
+      "extent": [
+        -124.67632869999998,
+        45.55984140000002,
+        -116.93126009999999,
+        49.0058765
+      ],
+      "id": "place-label",
+      "class": "places",
+      "Datasource": {
+        "file": "/Users/peter/Documents/quiteStyleWA/selectedPlaces.shp"
+      },
+      "layer": null,
+      "srs-name": "900913",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "advanced": {},
+      "name": "place-label"
+    }
+  ],
+  "scale": 1,
+  "metatile": 2,
+  "_basemap": "",
+  "name": "",
+  "description": "",
+  "attribution": ""
+}
